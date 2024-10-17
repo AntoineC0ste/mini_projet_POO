@@ -2,13 +2,13 @@ import pygame
 import math
 from random import random
 from balle import Balle
-
+from texte import Texte
 class Game():
     '''La fenêtre de jeu principale'''
     def __init__(self, resolution:tuple[int], difficulte:int, nbr_balles:int, fond:pygame.Surface, ips=60):
         self.screen = pygame.display.set_mode((resolution[0], resolution[1]))
         self.difficulte = difficulte
-        # self.nbr_balles = nbr_balles
+        self.score = Texte("Projet NSI", ("font/elite.ttf", 16), pygame.Color(255,255,255), (490, 300))
         self.fond = fond
         self.clock = pygame.time.Clock()
         self.ips = ips
@@ -17,18 +17,24 @@ class Game():
 
     def run(self):
         while self.running:
+            self.screen.blit(self.fond, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.running = False
-
-            self.screen.blit(self.fond, (0, 0))
-
+                
+                for balle in self.balles:
+                    if balle.est_touche() and event.type == pygame.MOUSEBUTTONDOWN:
+                        self.balles.remove(balle)
+                    
             for balle in self.balles:
                 balle.update()
                 balle.est_au_bord(self.screen)
                 self.screen.blit(balle.image, (balle.get_x(), balle.get_y()))
+
+
+            self.screen.blit(self.score.police, (490,300))
 
             pygame.display.update()
             self.clock.tick(self.ips)

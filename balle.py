@@ -9,6 +9,7 @@ class Balle():
         self.taille = taille
         angle = 2*math.pi*random.random()
         self.dx = 5*math.cos(angle)
+        # self.dx, self.dy = 0, 0
         self.dy = 5*math.sin(angle)
         self.image = pygame.image.load('img/balle.png').convert_alpha()
     
@@ -39,3 +40,13 @@ class Balle():
     def set_postion(self, x:float, y:float):
         '''met à jour la position de la balle selon les paramètres spécifiés.'''
         self.__pos = {"x":x, "y":y}
+
+    def est_touche(self) -> bool:
+        x_b, y_b = self.get_x(), self.get_y()
+        x_m, y_m = pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]
+
+        distanceballe = ((x_b-x_m)**2 + (y_b-y_m)**2)**0.5
+        if distanceballe < 50: # Si la postion de la souris est comprise entre pos_balle-50 et +50
+            return True
+        else: 
+            return False
