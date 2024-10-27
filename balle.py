@@ -3,7 +3,17 @@ import random
 import math
 
 class Balle():
-    '''Crée une balle.'''
+    '''
+    Crée une balle.
+
+    Attributs:
+    -------
+    x = :class:`float` qui représente la position initiale de la balle en abscisse 
+
+    y = :class:`float` qui représente la position initiale de la balle en ordonnée
+
+    taille = :class:`Optional:float` représente la taille de la balle
+    '''
     def __init__(self, x:float, y:float, taille:float=1):
         self.__pos = {"x":x, "y":y}
         self.taille = taille
@@ -14,6 +24,7 @@ class Balle():
         self.image = pygame.image.load('img/balle.png').convert_alpha()
     
     def update(self):
+        '''Met la postion de la balle à jour en fonction de ses attributs de vitesse'''
         self.__pos["y"] += self.dy
         self.__pos["x"] += self.dx
 
@@ -38,10 +49,13 @@ class Balle():
         return self.__pos["y"]
     
     def set_postion(self, x:float, y:float):
-        '''met à jour la position de la balle selon les paramètres spécifiés.'''
+        '''Met à jour la position de la balle selon les paramètres spécifiés.'''
         self.__pos = {"x":x, "y":y}
 
     def est_touche(self) -> bool:
+        '''Détecte si le curseur de la souris est sur la balle. \n
+        Renvoie `True` si le curseur se trouve sur la balle, `False` sinon.'''
+        # b = balle, m = mouse
         x_b, y_b = self.get_x(), self.get_y()
         x_m, y_m = pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]
 

@@ -16,6 +16,7 @@ class Game():
         self.balles = [Balle(random()*resolution[0]-55, random()*resolution[1]-55) for i in range(nbr_balles)]
 
     def run(self):
+        '''Boucle principale du jeu'''
         while self.running:
             self.screen.blit(self.fond, (0, 0))
             for event in pygame.event.get():
