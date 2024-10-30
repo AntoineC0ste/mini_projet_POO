@@ -15,25 +15,32 @@ class Game():
         self.running = True
         self.balles = [Balle(random()*resolution[0]-55, random()*resolution[1]-55) for i in range(nbr_balles)]
 
+    def afficher_balles(self):
+        '''Met à jour la position des balles et les affiche à l'écran'''
+        for balle in self.balles:
+            balle.update()
+            balle.est_au_bord(self.screen)
+            self.screen.blit(balle.image, (balle.get_x(), balle.get_y()))
+
+    def boucle_event(self):
+        '''Boucle d'évènements. Permet la détection des entrées du joueur'''
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.running = False
+            
+            for balle in self.balles:
+                if balle.est_touche() and event.type == pygame.MOUSEBUTTONDOWN:
+                    self.balles.remove(balle)
+
     def run(self):
         '''Boucle principale du jeu'''
         while self.running:
             self.screen.blit(self.fond, (0, 0))
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.running = False
-                
-                for balle in self.balles:
-                    if balle.est_touche() and event.type == pygame.MOUSEBUTTONDOWN:
-                        self.balles.remove(balle)
-                    
-            for balle in self.balles:
-                balle.update()
-                balle.est_au_bord(self.screen)
-                self.screen.blit(balle.image, (balle.get_x(), balle.get_y()))
 
+            self.boucle_event()
+            self.afficher_balles()
 
             self.screen.blit(self.score.police, (490,300))
 
