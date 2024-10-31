@@ -41,9 +41,10 @@ class Game():
                     self.balles.remove(balle)
                     self.liste_click.append(1)
                     cooldown = True
-                elif not balle.est_touche() and event.type == pygame.MOUSEBUTTONDOWN and not cooldown and self.score > 0:
+                if not balle.est_touche() and event.type == pygame.MOUSEBUTTONDOWN and not cooldown and self.score > 0:
                     self.liste_click.append(0)
                     cooldown = True
+                
 
     def run(self):
         '''Boucle principale du jeu'''
@@ -59,7 +60,13 @@ class Game():
 
             self.afficher_texte("Projet NSI", ("font/elite.ttf", 16), pygame.Color(255,255,255), (490, 300))
             self.afficher_texte(f"Score: {int(self.score*100)}%", ("font/elite.ttf", 18), pygame.Color(255,255,255), (0,0))
-
+            
+            if self.balles == []:
+                self.end()
 
             pygame.display.update()
             self.clock.tick(self.ips)
+
+    def end(self):
+        '''Met fin au jeu'''
+        self.running = False
