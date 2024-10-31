@@ -9,12 +9,15 @@ class Menu():
         self.fond = pygame.image.load(fond)
         self.running = True
         self.clock = pygame.time.Clock()
+
+        for composant in self.composantes:
+            composant.current_app = self
     
     def update_composantes(self, screen:pygame.surface, click:bool):
         for composant in self.composantes:
             composant.update(screen)
             if composant.est_touche() and click:
-                composant.action()
+                composant.lancer_app()
             
     def run(self):
         while self.running:
@@ -31,3 +34,5 @@ class Menu():
             self.update_composantes(self.screen, False)
             pygame.display.update()
             self.clock.tick(30)
+    def end(self):
+        self.running = False

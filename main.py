@@ -11,9 +11,14 @@ jeu = Game(resolution= (638, 320),
            nbr_balles= 15, 
            fond= pygame.image.load('img/fond.jpg'))
 
+lancer_jeu = Bouton(texte=Texte("Lancer le jeu", ("font/elite.ttf",18), (0,0,0),(255, 150)), 
+                    taille=(250,50), 
+                    couleur=(255,255,255), 
+                    pos=(200, 100), 
+                    redirect=jeu)
+
 menu_principal = Menu(resolution=(638,320),
-                      composantes=[Bouton(Texte("Jeu de bouboules", ("font/elite.ttf",18), (255,255,255), (255, 150)), (250,100), (0,255,255), (0,0))],
+                      composantes=[lancer_jeu],
                       fond='img/fond.jpg')
 
-# jeu.run()
 menu_principal.run()
