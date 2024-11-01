@@ -1,4 +1,5 @@
 from bouton import Bouton
+from texte import Texte
 import pygame
 
 class Menu():
@@ -9,7 +10,7 @@ class Menu():
     ------
     resolution = :class:`tuple[int]` la résoltion de la fenêtre (longueur, hauteur)
 
-    composantes = :class:`list[Bouton]` liste de composantes du menu TODO:ajouter Texte
+    composantes = :class:`list[Bouton, Texte]` liste de composantes du menu
 
     fond = :class:`str` chemin d'accès vers le fichier du fond d'écran du menu
     '''
@@ -21,7 +22,8 @@ class Menu():
         self.clock = pygame.time.Clock()
 
         for composant in self.composantes:
-            composant.current_app = self
+            if isinstance(composant, Bouton):
+                composant.current_app = self
     
     def update_composantes(self, screen:pygame.Surface, click:bool):
         '''Affiche et teste l'état des composantes
@@ -32,9 +34,13 @@ class Menu():
         click = :class:`bool` représente si un clic est détécté pour l'activation des boutons
         '''
         for composant in self.composantes:
-            composant.update(screen)
-            if composant.est_touche() and click:
-                composant.lancer_app()
+            if isinstance(composant, Texte):
+                screen.blit(composant.police, composant.pos)
+
+            elif isinstance(composant, Bouton):
+                composant.update(screen)
+                if composant.est_touche() and click:
+                    composant.lancer_app()
             
     def run(self):
         '''Boucle principale du menu'''
