@@ -37,9 +37,10 @@ class Bouton():
     def update(self, screen:pygame.Surface):
         '''Affiche le bouton sur la surface spécifiée'''
         screen.blit(self.surf, self.pos)
-        screen.blit(self.texte.police, self.surf.get_rect(topleft=self.pos).center)
+        screen.blit(self.texte.police, self.surf.get_rect(topleft=self.pos).midleft)
 
-    def lancer_app(self):
+    def lancer_app(self, p_parent):
         '''Lance un Menu ou un Game, spécifiés à la création du bouton'''
         self.current_app.end()
+        self.new_app.parent = p_parent
         self.new_app.run()

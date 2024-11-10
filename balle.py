@@ -12,16 +12,18 @@ class Balle():
 
     y = :class:`float` qui représente la position initiale de la balle en ordonnée
 
+    vitesse = :class:`int` est le multiplicateur de vitesse
+
     taille = :class:`Optional:float` représente la taille de la balle
     '''
-    def __init__(self, x:float, y:float, taille:float=1):
+    def __init__(self, x:float, y:float, vitesse:int, taille:float=1):
         self.__pos = {"x":x, "y":y}
-        self.taille = taille
+        # self.taille = abs(taille)
         angle = 2*math.pi*random.random()
-        self.dx = 5*math.cos(angle)
-        # self.dx, self.dy = 0, 0
-        self.dy = 5*math.sin(angle)
+        self.dx = vitesse*math.cos(angle)
+        self.dy = vitesse*math.sin(angle)
         self.image = pygame.image.load('img/balle.png').convert_alpha()
+        self.image = pygame.transform.scale_by(self.image, (abs(taille), abs(taille)))
     
     def update(self):
         '''Met la postion de la balle à jour en fonction de ses attributs de vitesse'''
@@ -55,12 +57,4 @@ class Balle():
     def est_touche(self) -> bool:
         '''Détecte si le curseur de la souris est sur la balle. \n
         Renvoie `True` si le curseur se trouve sur la balle, `False` sinon.'''
-        # b = balle, m = mouse
-        x_b, y_b = self.get_x(), self.get_y()
-        x_m, y_m = pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]
-
-        distanceballe = ((x_b-x_m)**2 + (y_b-y_m)**2)**0.5
-        if distanceballe < 50: # Si la postion de la souris est comprise entre pos_balle-50 et +50
-            return True
-        else: 
-            return False
+        return self.image.get_rect(topleft=(self.__pos['x'], self.__pos['y'])).collidepoint(pygame.mouse.get_pos())

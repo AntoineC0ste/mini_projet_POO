@@ -20,7 +20,7 @@ class Menu():
         self.fond = pygame.image.load(fond)
         self.running = True
         self.clock = pygame.time.Clock()
-
+        self.parent = None
         for composant in self.composantes:
             if isinstance(composant, Bouton):
                 composant.current_app = self
@@ -40,7 +40,7 @@ class Menu():
             elif isinstance(composant, Bouton):
                 composant.update(screen)
                 if composant.est_touche() and click:
-                    composant.lancer_app()
+                    composant.lancer_app(self)
             
     def run(self):
         '''Boucle principale du menu'''
@@ -50,7 +50,8 @@ class Menu():
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.running = False
+                    self.end()
+                    self.parent.run()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.update_composantes(self.screen, True)
 
