@@ -59,9 +59,10 @@ class Menu():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.end()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and self.parent != None:
+                    self.parent.running = True
                     self.parent.run()
+                    self.end()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.update_composantes(self.screen, True)
                 self.update_composantes(self.screen, False, event, self.tabscore)

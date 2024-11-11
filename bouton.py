@@ -43,4 +43,5 @@ class Bouton():
         '''Lance un Menu ou un Game, spécifiés à la création du bouton'''
         self.current_app.end()
         self.new_app.parent = p_parent
+        self.new_app.running = True
         self.new_app.run()

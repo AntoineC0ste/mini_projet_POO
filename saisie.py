@@ -16,14 +16,16 @@ class Saisie(Bouton):
     couleur_bg = :class:`pygame.Color()` la valeur RGB de la couleur de l'arrière plan du texte saisi, peut aussi être **(R, G, B)**
 
     couleur_txt = :class:`pygame.Color()` la valeur RGB de la couleur du texte saisi, peut aussi être **(R, G, B)**
+
+    redirect = :class:`Menu` le menu vers lequel le joueur sera redirigé en fin de saisie
     '''
     
-    def __init__(self, position:tuple[float], taille:tuple[float], couleur_bg:pygame.Color, couleur_txt:pygame.Color):
+    def __init__(self, position:tuple[float], taille:tuple[float], couleur_bg:pygame.Color, couleur_txt:pygame.Color, redirect=None):
         super().__init__(texte=Texte("", ("font/elite.ttf",18), couleur_txt,(255, 150)),
                        pos=position,
                        taille=taille,
                        couleur=couleur_bg,
-                       redirect=None)
+                       redirect=redirect)
     
     def update(self, screen:pygame.Surface, event:pygame.event=None, tabscore:TableauScores=None):
         '''Affiche le champ de saisie sur la surface spécifiée et gère l'entrée utilisateur'''
@@ -33,6 +35,8 @@ class Saisie(Bouton):
                     self.texte.set_contenu(self.texte.get_contenu()[:-1])
                 elif event.key == pygame.K_RETURN:
                     self.change_score(tabscore)
+                    if self.new_app != None:
+                        self.new_app.run()
                     self.current_app.end()
                 else:
                     self.texte.set_contenu(self.texte.get_contenu()+event.unicode)

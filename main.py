@@ -15,7 +15,7 @@ ELITE = ("font/elite.ttf",18)
 def generer_texte_defaut(texte:str):
     return Texte(texte, ELITE, (0,0,0), (0,0))
 
-tabscore = TableauScores("tests")
+tabscore = TableauScores("scores")
 
 saisie_pseudo = Menu(resolution=RESOLUTION,
                      composantes=[Saisie(position=(200,150), taille=(250, 50), couleur_bg=(255, 255, 255), couleur_txt=(0, 0, 0))],
@@ -24,7 +24,7 @@ saisie_pseudo = Menu(resolution=RESOLUTION,
 
 facile = Game(resolution= RESOLUTION, 
            difficulte= 0, 
-           nbr_balles= 15, 
+           nbr_balles= 1, 
            fond= pygame.image.load('img/fond.jpg'),
            redirect=saisie_pseudo,
            tabscore=tabscore)
@@ -41,6 +41,8 @@ moyen = Game(resolution= RESOLUTION,
              fond= pygame.image.load('img/fond.jpg'),
              redirect=saisie_pseudo,
              tabscore=tabscore)
+
+moyen.running = False # En enlevant cette ligne, le jeu ne se ferme pas et lance la difficulté moyen à la place. NE PAS TOUCHER
 
 lancer_moyen = Bouton(texte=generer_texte_defaut("Moyen"),
                        pos=(200,150),
@@ -71,7 +73,7 @@ lancer_jeu = Bouton(texte=Texte("Lancer le jeu", ELITE, (0,0,0),(255, 150)),
                     pos=(200, 100), 
                     redirect=select_difficulte)
 
-listscore = tabscore.get_tableau()
+listscore = tabscore.get_tableau() # Pour les itérables en dessous
 menu_tableau_scores = Menu(resolution=RESOLUTION,
                       composantes=[Texte(f"{listscore[i][1]}: {int(listscore[i][0])}", ELITE, (0,0,0), (RESOLUTION[0]/2.5,i*25)) for i in range(len(listscore))],
                       fond='img/fond.jpg')
@@ -92,6 +94,6 @@ lancer_menu_principal = Bouton(texte=Texte("Revenir au menu principal", ELITE, (
                                couleur=(255,255,255),
                                redirect=menu_principal)
 
-
+saisie_pseudo.parent = menu_principal
 
 menu_principal.run()

@@ -12,7 +12,7 @@ class Game():
         self.fond = fond
         self.clock = pygame.time.Clock()
         self.ips = ips
-        self.running = True
+        self.running = False
         self.balles = [Balle(random()*resolution[0]-55, random()*resolution[1]-55, vitesse=(difficulte+1)*2, taille=uniform(1/(difficulte+1), 1)) for i in range(nbr_balles)]
         self.score = 0
         self.liste_click = []
