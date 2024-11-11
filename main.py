@@ -8,6 +8,7 @@ from tableau_scores import TableauScores
 import pygame
 
 pygame.init()
+pygame.mixer.init()
 
 RESOLUTION = (638, 320)
 ELITE = ("font/elite.ttf",18)
@@ -24,7 +25,7 @@ saisie_pseudo = Menu(resolution=RESOLUTION,
 
 facile = Game(resolution= RESOLUTION, 
            difficulte= 0, 
-           nbr_balles= 1, 
+           nbr_balles= 15, 
            fond= pygame.image.load('img/fond.jpg'),
            redirect=saisie_pseudo,
            tabscore=tabscore)

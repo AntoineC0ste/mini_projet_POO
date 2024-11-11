@@ -18,6 +18,7 @@ class Game():
         self.liste_click = []
         self.redirect = redirect
         self.tabscore = tabscore
+        pygame.mixer.music.load('sons/qwak.mp3')
 
     def afficher_balles(self):
         '''Met à jour la position des balles et les affiche à l'écran'''
@@ -41,6 +42,7 @@ class Game():
             
             for balle in self.balles:
                 if balle.est_touche() and event.type == pygame.MOUSEBUTTONDOWN and not cooldown:
+                    pygame.mixer.music.play()
                     self.balles.remove(balle)
                     self.liste_click.append(1)
                     cooldown = True
