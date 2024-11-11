@@ -22,7 +22,7 @@ class TableauScores():
 
         new_score = `int` le score du joueur
         '''
-
+        self.charger()
         self.__tabscore.append([new_score, nom_joueur])
         with open(f"./tableau_scores/{self.nom_fichier}.json", "w") as f:
             json.dump(self.__tabscore, f)
@@ -33,18 +33,26 @@ class TableauScores():
             self.__tabscore = json.load(f)
             f.close()
     
+    def retirer(self, score:tuple[str, int]):
+        '''Retire un score du tableau.'''
+        self.charger()
+        self.__tabscore.remove(score)
+        with open(f"./tableau_scores/{self.nom_fichier}.json", "w") as f:
+            json.dump(self.__tabscore, f)
+            f.close()
+    
     def get_tableau(self):
         output = []
-        tabscore = self.__tabscore.copy()
+        tabscore = self.__tabscore
         score_actuel = [0, "NULL"]
         index_actuel = 0
-        for score in self.__tabscore:
+        for score in range(len(self.__tabscore)):
             for i in range(len(tabscore)):
                 if tabscore[i][0] > score_actuel[0]:
                     score_actuel = tabscore[i]
                     index_actuel = i
             output.append(self.__tabscore[index_actuel])
-            tabscore = [couple for couple in self.__tabscore if couple != self.__tabscore[index_actuel]]
+            tabscore.remove(score_actuel)
             index_actuel = 0
             score_actuel = [0, "NULL"]
         return output

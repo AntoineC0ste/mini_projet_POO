@@ -1,12 +1,12 @@
 import pygame
-import math
+from tableau_scores import TableauScores
 from random import random, uniform
 from balle import Balle
 from menu import Menu
 from texte import Texte
 class Game():
     '''La fenêtre de jeu principale'''
-    def __init__(self, resolution:tuple[int], difficulte:int, nbr_balles:int, fond:pygame.Surface, ips=60, redirect = None):
+    def __init__(self, resolution:tuple[int], difficulte:int, nbr_balles:int, fond:pygame.Surface, tabscore:TableauScores, ips=60, redirect = None):
         self.screen = pygame.display.set_mode((resolution[0], resolution[1]))
         self.difficulte = difficulte
         self.fond = fond
@@ -16,7 +16,8 @@ class Game():
         self.balles = [Balle(random()*resolution[0]-55, random()*resolution[1]-55, vitesse=(difficulte+1)*2, taille=uniform(1/(difficulte+1), 1)) for i in range(nbr_balles)]
         self.score = 0
         self.liste_click = []
-        self.redirect = staticmethod(redirect)
+        self.redirect = redirect
+        self.tabscore = tabscore
 
     def afficher_balles(self):
         '''Met à jour la position des balles et les affiche à l'écran'''
@@ -72,7 +73,8 @@ class Game():
     def end(self):
         '''Met fin au jeu'''
         if self.redirect is not None:
-            self.redirect
+            self.tabscore.sauvegarder("MEGABALLULTRAPLACEHOLDERNOONEISGOINGTOECRIRECA", self.score*100)
+            self.redirect.run()
             self.running = False
         else:
             self.running = False

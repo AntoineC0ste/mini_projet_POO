@@ -1,6 +1,7 @@
 from game import Game
 from menu import Menu
 from bouton import Bouton
+from saisie import Saisie
 from texte import Texte
 from tableau_scores import TableauScores
 
@@ -14,12 +15,19 @@ ELITE = ("font/elite.ttf",18)
 def generer_texte_defaut(texte:str):
     return Texte(texte, ELITE, (0,0,0), (0,0))
 
+tabscore = TableauScores("tests")
+
+saisie_pseudo = Menu(resolution=RESOLUTION,
+                     composantes=[Saisie(position=(200,150), taille=(250, 50), couleur_bg=(255, 255, 255), couleur_txt=(0, 0, 0))],
+                     fond="img/fond.jpg",
+                     tabscore=tabscore)
 
 facile = Game(resolution= RESOLUTION, 
            difficulte= 0, 
            nbr_balles= 15, 
            fond= pygame.image.load('img/fond.jpg'),
-           redirect=None)
+           redirect=saisie_pseudo,
+           tabscore=tabscore)
 
 lancer_facile = Bouton(texte=generer_texte_defaut("Facile"),
                        pos=(200,50),
@@ -31,7 +39,8 @@ moyen = Game(resolution= RESOLUTION,
              difficulte= 1, 
              nbr_balles= 30, 
              fond= pygame.image.load('img/fond.jpg'),
-             redirect=None)
+             redirect=saisie_pseudo,
+             tabscore=tabscore)
 
 lancer_moyen = Bouton(texte=generer_texte_defaut("Moyen"),
                        pos=(200,150),
@@ -43,7 +52,8 @@ difficile = Game(resolution= RESOLUTION,
                  difficulte= 2, 
                  nbr_balles= 50, 
                  fond= pygame.image.load('img/fond.jpg'),
-                 redirect=None)
+                 redirect=saisie_pseudo,
+                 tabscore=tabscore)
 
 lancer_difficile = Bouton(texte=generer_texte_defaut("Difficile"),
                        pos=(200,250),
@@ -61,10 +71,9 @@ lancer_jeu = Bouton(texte=Texte("Lancer le jeu", ELITE, (0,0,0),(255, 150)),
                     pos=(200, 100), 
                     redirect=select_difficulte)
 
-tabscore = TableauScores("tests")
-
+listscore = tabscore.get_tableau()
 menu_tableau_scores = Menu(resolution=RESOLUTION,
-                      composantes=[Texte(f"{tabscore.get_tableau()[i][1]}: {tabscore.get_tableau()[i][0]}", ELITE, (0,0,0), (RESOLUTION[0]/2.5,i*25)) for i in range(len(tabscore.get_tableau()))],
+                      composantes=[Texte(f"{listscore[i][1]}: {int(listscore[i][0])}", ELITE, (0,0,0), (RESOLUTION[0]/2.5,i*25)) for i in range(len(listscore))],
                       fond='img/fond.jpg')
 
 lancer_tabscore = Bouton(texte=Texte("Tableau de scores", ELITE, (0,0,0),(255, 150)),

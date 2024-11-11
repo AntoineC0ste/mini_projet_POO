@@ -18,7 +18,8 @@ class Texte():
     '''
     def __init__(self, contenu:str, police:tuple, couleur:pygame.Color, position:tuple):
         self.__contenu = contenu
-        self.police = Font(police[0], police[1]).render(contenu, True, couleur)
+        self.texte = Font(police[0], police[1])
+        self.police = self.texte.render(contenu, True, couleur)
         self.couleur = couleur
         self.pos = position
 
@@ -30,4 +31,4 @@ class Texte():
     def set_contenu(self, nouveau_contenu:str) -> None:
         '''Met à jour le texte affiché.'''
         self.__contenu = nouveau_contenu
-        self.police = self.police.render(self.__contenu, True, self.couleur)
+        self.police = self.texte.render(self.__contenu, True, self.couleur)
